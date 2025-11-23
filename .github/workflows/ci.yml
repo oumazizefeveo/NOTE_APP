@@ -1,0 +1,57 @@
+name: CI/CD
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    services:
+      mongodb:
+        image: mongo:6
+        ports:
+          - 27017:27017
+
+    steps:
+    - uses: actions/checkout@v3
+
+    # Backend
+    - name: Setup Node.js for Backend
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: backend/package-lock.json
+
+    - name: Install Backend Dependencies
+      run: cd backend && npm ci
+
+    - name: Lint Backend
+      run: cd backend && npm run lint --if-present
+
+    - name: Test Backend
+      run: cd backend && npm test
+      env:
+        MONGODB_URI_TEST: mongodb://localhost:27017/notes_test
+        JWT_SECRET: testsecret
+
+    # Frontend
+    - name: Setup Node.js for Frontend
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+        cache: 'npm'
+        cache-dependency-path: frontend/package-lock.json
+
+    - name: Install Frontend Dependencies
+      run: cd frontend && npm ci
+
+    - name: Lint Frontend
+      run: cd frontend && npm run lint --if-present
+
+    - name: Build Frontend
+      run: cd frontend && npm run build
