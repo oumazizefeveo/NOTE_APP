@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const app = require('./app');
 
 const PORT = process.env.PORT || 3000;
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/notes';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb+srv://oumazizefeveo_db_user:3aPXKa4SqUihbL1l@cluster0.vrz3po4.mongodb.net/notes';
 
 async function startServer() {
   try {
