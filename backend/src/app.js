@@ -17,7 +17,7 @@ const uploadRoute = require('./routes/uploadRoute');
 
 const app = express();
 
-const FRONTEND_ORIGIN = process.env.FRONTEND_URL || 'http://localhost:5173';
+const FRONTEND_ORIGIN = process.env.FRONTEND_URL || 'https://note-app-zq4v.onrender.com';
 
 // Observability & security middlewares
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
